@@ -1,0 +1,1 @@
+{'tap': 'The UI element selects an option from the Location dropdown, populating the field with the chosen city and collapsing the list.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

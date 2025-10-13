@@ -1,0 +1,1 @@
+{'tap': 'The UI element initiates the application flow by navigating from the feature summary to the form where the user can enter personal details.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

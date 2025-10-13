@@ -1,0 +1,1 @@
+{'tap': '', 'text': '', 'v_swipe': 'The UI element serves as a section header within a scrollable form; swiping on it scrolls the page to reveal more fields and subsequent sections.', 'h_swipe': '', 'long_press': ''}

@@ -1,0 +1,1 @@
+{'tap': 'The UI element selects the “10 Crores+” option from the Annual Turnover dropdown, populating the field and closing the list.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

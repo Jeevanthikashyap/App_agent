@@ -1,0 +1,1 @@
+{'tap': 'The UI element initiates updating the app by opening the Google Play Store to handle the update process.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

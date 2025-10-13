@@ -1,0 +1,1 @@
+{'tap': 'The UI element submits the entered email/phone to proceed to the next step, validating the input and showing an error if it’s not a valid identifier.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

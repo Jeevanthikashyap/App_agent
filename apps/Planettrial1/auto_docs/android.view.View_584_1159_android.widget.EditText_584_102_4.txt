@@ -1,0 +1,1 @@
+{'tap': 'The UI element focuses the PIN input field and brings up the on-screen numeric keyboard to start entering digits.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

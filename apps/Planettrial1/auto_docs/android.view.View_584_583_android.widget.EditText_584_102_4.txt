@@ -1,0 +1,1 @@
+{'tap': 'The UI element activates the Last Name input field, allowing the user to type their surname.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

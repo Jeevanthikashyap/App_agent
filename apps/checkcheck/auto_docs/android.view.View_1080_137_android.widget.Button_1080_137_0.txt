@@ -1,0 +1,1 @@
+{'tap': 'The UI element expands the AI Overview section to display more content and subsections, offering additional summarized details about the query.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

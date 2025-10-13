@@ -1,0 +1,1 @@
+{'tap': 'The UI element navigates from the home screen to the Business Loan section, listing business loan products and their Apply Now actions.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

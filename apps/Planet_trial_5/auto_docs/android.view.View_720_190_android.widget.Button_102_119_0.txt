@@ -1,0 +1,1 @@
+{'tap': 'The UI element is a back navigation control that returns to the previous screen in the SME Loan flow.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

@@ -1,0 +1,1 @@
+{'tap': 'The UI element is the Last Name text field. Tapping it focuses the field for typing and shows the keyboard for input.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

@@ -1,0 +1,1 @@
+{'tap': 'The UI element starts Chrome without requiring a Google account sign-in, bypassing account setup and proceeding to the next setup screen.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

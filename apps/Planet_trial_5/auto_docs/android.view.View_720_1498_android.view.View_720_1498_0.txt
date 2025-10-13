@@ -1,0 +1,1 @@
+{'tap': 'The UI element expands the Location selector to show a list of available cities for selection.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

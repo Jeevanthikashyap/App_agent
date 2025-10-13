@@ -1,0 +1,1 @@
+{'tap': 'The UI element expands the Business Type selector to show available categories for selection. This allows the user to choose their business type from a list.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

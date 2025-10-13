@@ -1,0 +1,1 @@
+{'tap': 'The UI element is a PIN input field; tapping it focuses the field and opens the numeric keypad to enter the security PIN.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

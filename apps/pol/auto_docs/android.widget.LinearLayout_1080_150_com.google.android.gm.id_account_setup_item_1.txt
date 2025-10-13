@@ -1,0 +1,1 @@
+{'tap': 'The UI element selects the Google account type and launches the Google sign-in flow to add a Google account to Gmail.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

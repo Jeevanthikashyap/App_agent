@@ -1,0 +1,1 @@
+{'tap': 'The UI element allows proceeding in Chrome without signing in, advancing to the next setup screen so you can begin browsing.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

@@ -1,0 +1,1 @@
+{'tap': 'The UI element focuses the Date of Birth input and scrolls it into view, preparing for date selection (typically via a calendar/date picker).', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

@@ -1,0 +1,1 @@
+{'tap': 'The UI element selects the "Trader" option from the Business Type dropdown, setting the field’s value and collapsing the list to continue filling the form.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

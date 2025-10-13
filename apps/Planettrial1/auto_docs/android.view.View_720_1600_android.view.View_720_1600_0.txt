@@ -1,0 +1,1 @@
+{'tap': 'The UI element is the Date of Birth input; activating it should open a calendar/date picker to choose a date.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

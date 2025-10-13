@@ -1,0 +1,1 @@
+{'tap': 'This UI element is an application icon that, when tapped, launches the corresponding mobile application.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

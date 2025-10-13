@@ -1,0 +1,1 @@
+{'tap': 'The UI element opens the Annual Turnover selection list, allowing the user to choose a turnover range.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

@@ -1,0 +1,1 @@
+{'tap': 'The UI element toggles acceptance of the Terms & Conditions, which is typically required to proceed and enable form submission.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

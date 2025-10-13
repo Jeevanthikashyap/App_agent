@@ -1,0 +1,1 @@
+{'tap': '', 'text': '', 'v_swipe': 'The UI element is an item within the Annual Turnover dropdown; interacting with it scrolls the list to display additional turnover ranges.', 'h_swipe': '', 'long_press': ''}

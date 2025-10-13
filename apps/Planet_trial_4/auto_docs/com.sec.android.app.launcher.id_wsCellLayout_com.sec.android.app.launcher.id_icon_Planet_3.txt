@@ -1,0 +1,1 @@
+{'tap': 'The UI element is the Planet app icon; tapping it launches the Planet app.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

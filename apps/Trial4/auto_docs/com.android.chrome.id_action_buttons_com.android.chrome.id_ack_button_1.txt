@@ -1,0 +1,1 @@
+{'tap': 'The UI element closes the ad privacy prompt and continues to the main Chrome page.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

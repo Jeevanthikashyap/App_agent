@@ -1,0 +1,1 @@
+{'tap': 'The UI element navigates from the home page to the Business Loan category screen, where different business loan options (e.g., SME Loan) can be applied for.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

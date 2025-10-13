@@ -1,0 +1,1 @@
+{'tap': 'The UI element opens the SME Loan details/application screen so the user can proceed with applying for that loan type.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

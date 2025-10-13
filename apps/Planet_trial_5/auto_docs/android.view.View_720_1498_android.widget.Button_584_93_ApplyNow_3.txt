@@ -1,0 +1,1 @@
+{'tap': 'The UI element initiates the loan application process from the features page and opens the form where personal details can be entered.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

@@ -1,0 +1,1 @@
+{'tap': '', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': 'The UI element is the email/phone text input field. Long-pressing it brings up text-selection handles and the editing menu to cut, copy, paste, or select all.'}

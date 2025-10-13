@@ -1,0 +1,1 @@
+{'tap': 'The UI element launches the YouTube application.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

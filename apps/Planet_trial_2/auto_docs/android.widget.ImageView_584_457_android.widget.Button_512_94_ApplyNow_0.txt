@@ -1,0 +1,1 @@
+{'tap': 'The UI element initiates the SME Loan application flow by navigating from the loan list to the SME Loan details page where you can proceed further.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

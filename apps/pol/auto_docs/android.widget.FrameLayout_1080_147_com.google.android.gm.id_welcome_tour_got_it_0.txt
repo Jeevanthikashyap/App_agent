@@ -1,0 +1,1 @@
+{'tap': 'The UI element dismisses the welcome/intro screen and advances to the email setup screen where you can add or proceed with accounts.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

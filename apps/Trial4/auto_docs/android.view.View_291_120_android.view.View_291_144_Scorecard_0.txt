@@ -1,0 +1,1 @@
+{'tap': 'The UI element switches the match details to the Scorecard tab, displaying comprehensive batting/bowling statistics and innings information.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

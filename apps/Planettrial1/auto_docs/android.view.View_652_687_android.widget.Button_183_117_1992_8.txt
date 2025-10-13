@@ -1,0 +1,1 @@
+{'tap': 'The UI element selects the chosen year in the date picker and navigates to that year’s month/day calendar view.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

@@ -1,0 +1,1 @@
+{'tap': 'The UI element toggles the date picker into a year list/dropdown, letting you choose a different year before selecting the month and day.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

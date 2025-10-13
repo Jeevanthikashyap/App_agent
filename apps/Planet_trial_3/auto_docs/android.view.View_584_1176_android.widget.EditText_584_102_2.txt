@@ -1,0 +1,1 @@
+{'tap': 'The UI element activates the First Name input field, placing the cursor there and bringing up the keyboard for text entry.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

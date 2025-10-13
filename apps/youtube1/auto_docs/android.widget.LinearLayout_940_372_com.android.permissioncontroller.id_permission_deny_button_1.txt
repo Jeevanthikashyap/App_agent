@@ -1,0 +1,1 @@
+{'tap': 'The UI element denies notification permission and closes the dialog, taking you back to the main interface.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

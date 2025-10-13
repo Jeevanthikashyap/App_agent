@@ -1,0 +1,1 @@
+{'tap': 'The UI element launches the Google Chrome browser from the home screen.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

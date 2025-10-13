@@ -1,0 +1,1 @@
+{'tap': '', 'text': '', 'v_swipe': 'The UI element is the year grid in the date picker; swiping on it vertically scrolls through the available years to help choose a specific year.', 'h_swipe': '', 'long_press': ''}

@@ -1,0 +1,1 @@
+{'tap': 'The UI element initiates adding an email account by launching the account setup flow where you choose the email provider.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

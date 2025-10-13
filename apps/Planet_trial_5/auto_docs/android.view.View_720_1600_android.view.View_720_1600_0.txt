@@ -1,0 +1,1 @@
+{'tap': '', 'text': '', 'v_swipe': 'The UI element is a scrollable form container. Swiping it scrolls through the form to reveal additional fields and action buttons such as the Terms & Conditions checkbox and Submit.', 'h_swipe': '', 'long_press': ''}

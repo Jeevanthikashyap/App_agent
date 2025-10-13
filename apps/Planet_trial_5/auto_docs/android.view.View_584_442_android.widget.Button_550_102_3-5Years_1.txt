@@ -1,0 +1,1 @@
+{'tap': 'The UI element selects an option from the Business Age dropdown, sets that value in the field, and collapses the list to continue filling the form.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

@@ -1,0 +1,1 @@
+{'tap': 'The UI element toggles the calendar to a year chooser, allowing quick selection of a different year before picking a month and day.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

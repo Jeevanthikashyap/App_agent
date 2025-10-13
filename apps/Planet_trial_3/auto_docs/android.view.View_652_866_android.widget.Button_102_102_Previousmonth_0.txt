@@ -1,0 +1,1 @@
+{'tap': 'The UI element navigates the date picker to the previous month.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

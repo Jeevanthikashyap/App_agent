@@ -1,0 +1,1 @@
+{'tap': 'The UI element opens a date picker dialog so the user can select a date for the Date of Birth field.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

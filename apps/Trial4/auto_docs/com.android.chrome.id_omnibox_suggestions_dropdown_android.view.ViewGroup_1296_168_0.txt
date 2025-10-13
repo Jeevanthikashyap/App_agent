@@ -1,0 +1,1 @@
+{'tap': 'The UI element selects the suggested search query and executes it, navigating to the Google results page for that term.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

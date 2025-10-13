@@ -1,0 +1,1 @@
+{'tap': '', 'text': '', 'v_swipe': 'The UI element is the year list in the date picker; swiping it scrolls to show earlier or later years.', 'h_swipe': '', 'long_press': ''}

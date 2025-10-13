@@ -1,0 +1,1 @@
+{'tap': 'The UI element opens the YouTube search interface, placing focus on the search field and enabling text or voice input for a query.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

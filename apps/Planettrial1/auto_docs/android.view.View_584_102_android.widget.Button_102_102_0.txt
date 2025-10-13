@@ -1,0 +1,1 @@
+{'tap': 'The UI element opens a date picker modal so the user can select a date for the associated input field.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

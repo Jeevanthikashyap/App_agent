@@ -1,0 +1,17 @@
+argparse
+colorama
+dashscope
+opencv-python
+pyshine
+pyyaml
+requests
+keras
+sounddevice
+matplotlib
+openai-whisper
+soundfile
+playsound==1.2.2
+SpeechRecognition
+gtts
+google-generativeai
+conda-forge ffmpeg

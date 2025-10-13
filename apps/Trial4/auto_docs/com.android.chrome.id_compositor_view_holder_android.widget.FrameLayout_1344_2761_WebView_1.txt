@@ -1,0 +1,1 @@
+{'tap': 'The UI element opens the detailed match page for the selected game, showing comprehensive scores, overs, and related tabs for in-depth updates.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

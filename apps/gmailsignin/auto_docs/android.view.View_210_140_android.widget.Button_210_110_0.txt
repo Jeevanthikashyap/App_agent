@@ -1,0 +1,1 @@
+{'tap': 'The UI element submits the email/phone and attempts to advance to the next step of sign-in, showing an error if the account is not recognized.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

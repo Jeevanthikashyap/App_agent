@@ -1,0 +1,1 @@
+{'tap': 'The UI element is a search suggestion; tapping it populates/refines the query in the search box rather than executing the search.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

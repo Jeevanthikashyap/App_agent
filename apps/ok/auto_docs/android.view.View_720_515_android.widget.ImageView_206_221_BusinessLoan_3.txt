@@ -1,0 +1,1 @@
+{'tap': 'The UI element opens the Business Loan category, showing loan options (e.g., SME Loan) with details and Apply Now actions.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

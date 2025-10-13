@@ -1,0 +1,1 @@
+{'tap': 'The UI element launches the Planet app from the home screen, taking you to its login screen to enter the security PIN.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}
