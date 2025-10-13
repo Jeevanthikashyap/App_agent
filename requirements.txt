@@ -14,4 +14,3 @@ playsound==1.2.2
 SpeechRecognition
 gtts
 google-generativeai
-conda-forge ffmpeg
