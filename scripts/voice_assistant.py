@@ -93,13 +93,13 @@ def speak_summary_only():
 
 def listen_for_voice():
     """Listens for user's voice and returns the text."""
-    duration = 20
+    duration = 10
     device = 15
     fs = 44100
     channels = 2
 
     print(f"Recording your response from microphone {device}...")
-    speak_text("start telling your response now")
+    speak_text("start telling your input")
     audio = sd.rec(int(duration * fs), samplerate=fs, channels=channels, dtype='int16', device=device)
     sd.wait()
     print("Recording complete.")

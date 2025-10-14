@@ -16,9 +16,9 @@ root_dir = args["root_dir"]
 
 print_with_color("Welcome to your app agent", "yellow")
 
-if not app:
-    print_with_color("What is the name of the target app?", "blue")
-    app = input()
-    app = app.replace(" ", "")
+# if not app:
+#     print_with_color("What is the name of the target app?", "blue")
+#     app = input()
+#     app = app.replace(" ", "")
 
 os.system(f"python scripts/self_explorer.py --app {app} --root_dir {root_dir}")

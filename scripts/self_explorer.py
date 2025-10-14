@@ -110,6 +110,9 @@ greeting_text = "Hi, I am your app agent for L&T Finance - Planet App. How can I
 print_with_color(greeting_text, "pink")
 voice_assistant.speak_text(greeting_text)
 
+# ------------------ Stop Words ------------------
+STOP_WORDS = ["exit", "quit", "stop", "no", "no thanks", "all done", "you can exit now", "close"]
+
 # ------------------ Continuous Task Loop ------------------
 while True:
     # Ask for a new task
@@ -122,11 +125,12 @@ while True:
     # Read task description
     if os.path.exists(input_file_path) and os.path.getsize(input_file_path) > 0:
         with open(input_file_path, "r", encoding="utf-8") as f:
-            task_desc = f.read().strip()
+            task_desc = f.read().strip().lower()
         open(input_file_path, "w").close()
 
-        if task_desc.lower() in ["exit", "quit", "stop", "no"]:
-            print_with_color("Goodbye! Exiting agent.", "red")
+        # Check if user wants to exit
+        if any(stop_word in task_desc for stop_word in STOP_WORDS):
+            print_with_color("Goodbye! Exiting agent.", "green")
             voice_assistant.speak_text("Goodbye! Exiting now.")
             break
 
@@ -135,7 +139,7 @@ while True:
         print_with_color("No new task detected. Exiting.", "red")
         break
 
-    # Create a new demo directory for this task
+    # ------------------ Setup Task Directories ------------------
     demo_dir = os.path.join(work_dir, "demos")
     os.makedirs(demo_dir, exist_ok=True)
     demo_timestamp = int(time.time())
@@ -145,7 +149,7 @@ while True:
     explore_log_path = os.path.join(task_dir, f"log_explore_{task_name}.txt")
     reflect_log_path = os.path.join(task_dir, f"log_reflect_{task_name}.txt")
 
-    # Initialize exploration state
+    # ------------------ Initialize Exploration ------------------
     round_count = 0
     doc_count = 0
     useless_list = set()
@@ -166,6 +170,7 @@ while True:
         if screenshot_before == "ERROR" or xml_path == "ERROR":
             break
 
+        # ------------------ UI Elements ------------------
         clickable_list = []
         focusable_list = []
         traverse_tree(xml_path, clickable_list, "clickable", True)
@@ -197,6 +202,7 @@ while True:
             dark_mode=configs["DARK_MODE"]
         )
 
+        # ------------------ Model Prompt ------------------
         prompt = re.sub(r"<task_description>", task_desc, prompts.self_explore_task_template)
         prompt = re.sub(r"<last_act>", last_act, prompt)
         prompt = re.sub(r"<human_answer_context>", human_answer_context, prompt)
@@ -218,6 +224,7 @@ while True:
         last_act = res[-1]
         res = res[:-1]
 
+        # ------------------ Execute Actions ------------------
         if act_name == "FINISH":
             task_complete = True
             break
@@ -248,12 +255,23 @@ while True:
 
             if os.path.exists(input_file_path) and os.path.getsize(input_file_path) > 0:
                 with open(input_file_path, "r", encoding="utf-8") as f:
-                    human_input = f.read().strip()
+                    human_input = f.read().strip().lower()
                 open(input_file_path, "w").close()
                 print_with_color(f"Found response: '{human_input}'", "cyan")
+
+                # Stop if user says a stop word
+                if any(stop_word in human_input for stop_word in STOP_WORDS):
+                    print_with_color("User requested to stop. Exiting agent.", "red")
+                    voice_assistant.speak_text("Goodbye! Exiting now.")
+                    sys.exit(0)
             else:
                 print_with_color("Waiting for your response (type or update input.txt)...", "yellow")
-                human_input = input("Your response: ")
+                human_input = input("Your response: ").strip().lower()
+                if any(stop_word in human_input for stop_word in STOP_WORDS):
+                    print_with_color("User requested to stop. Exiting agent.", "green")
+                    voice_assistant.speak_text("Goodbye! Exiting now.")
+                    sys.exit(0)
+
             print_with_color("Understood. Using this for next step.", "cyan")
             continue
         elif act_name == "text":
@@ -270,7 +288,7 @@ while True:
 
         time.sleep(configs["REQUEST_INTERVAL"])
 
-        # Reflection phase
+        # ------------------ Reflection Phase ------------------
         screenshot_after = controller.get_screenshot(f"{round_count}_after", task_dir)
         if screenshot_after == "ERROR":
             break

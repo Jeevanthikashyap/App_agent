@@ -169,7 +169,7 @@ class GeminiModel(BaseModel):
                         raise e
 
         except Exception as e:
-            return False, f"Gemini API error: {str(e)}"
+            return False, f"Gemini/OpenAi API error: {str(e)}"
 
 
 def parse_explore_rsp(rsp):
