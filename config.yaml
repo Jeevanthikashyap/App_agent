@@ -18,6 +18,6 @@ ANDROID_SCREENSHOT_DIR: "/sdcard"  # Set the directory on your Android device to
 ANDROID_XML_DIR: "/sdcard"  # Set the directory on your Android device to store the intermediate XML files used for determining locations of UI elements on your screen. Make sure the directory EXISTS on your phone!
 
 DOC_REFINE: false  # Set this to true will make the agent refine existing documentation based on the latest demonstration; otherwise, the agent will not regenerate a new documentation for elements with the same resource ID.
-MAX_ROUNDS: 40  # Set the round limit for the agent to complete the task
+MAX_ROUNDS: 100  # Set the round limit for the agent to complete the task
 DARK_MODE: false  # Set this to true if your app is in dark mode to enhance the element labeling
-MIN_DIST: 30  # The minimum distance between elements to prevent overlapping during the labeling process
+MIN_DIST: 10  # The minimum distance between elements to prevent overlapping during the labeling process

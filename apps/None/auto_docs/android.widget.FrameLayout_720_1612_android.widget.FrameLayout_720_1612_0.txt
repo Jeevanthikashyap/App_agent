@@ -1,0 +1,1 @@
+{'tap': 'The UI element opens the Rural Loan product page, displaying features, benefits, and an option to apply for that loan.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

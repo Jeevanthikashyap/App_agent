@@ -1,1 +1,1 @@
-{'tap': 'The UI element is an application icon that, when tapped, launches the associated mobile application.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}
+{'tap': 'The UI element is an application icon that, when tapped, launches the associated mobile application, bringing its main interface into view.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

@@ -15,7 +15,7 @@ from logger import setup_logger
 from config import load_config
 from and_controller import list_all_devices, AndroidController, traverse_tree
 from model import parse_explore_rsp, parse_reflect_rsp, OpenAIModel, QwenModel, GeminiModel
-from utils import print_with_color, draw_bbox_multi
+from utils import print_with_color, draw_bbox_multi, draw_grid
 
 # Initialize logging
 setup_logger()
@@ -113,33 +113,60 @@ voice_assistant.speak_text(greeting_text)
 # ------------------ Stop Words ------------------
 STOP_WORDS = ["exit", "quit", "stop", "no", "no thanks", "all done", "you can exit now", "close"]
 
+# ------------------ Grid Mode Setup ------------------
+grid_on = True  # Force grid mode ON
+rows, cols = 0, 0
+
+def area_to_xy(area, subarea):
+    global rows, cols
+    if rows == 0 or cols == 0:
+        rows, cols = 3, 3  # default grid
+    area = max(1, area) - 1
+    row, col = divmod(area, cols)
+    row = min(row, rows - 1)
+    col = min(col, cols - 1)
+    x_0, y_0 = col * (width // cols), row * (height // rows)
+    if subarea == "top-left":
+        x, y = x_0 + (width // cols) // 4, y_0 + (height // rows) // 4
+    elif subarea == "top":
+        x, y = x_0 + (width // cols) // 2, y_0 + (height // rows) // 4
+    elif subarea == "top-right":
+        x, y = x_0 + (width // cols) * 3 // 4, y_0 + (height // rows) // 4
+    elif subarea == "left":
+        x, y = x_0 + (width // cols) // 4, y_0 + (height // rows) // 2
+    elif subarea == "right":
+        x, y = x_0 + (width // cols) * 3 // 4, y_0 + (height // rows) // 2
+    elif subarea == "bottom-left":
+        x, y = x_0 + (width // cols) // 4, y_0 + (height // rows) * 3 // 4
+    elif subarea == "bottom":
+        x, y = x_0 + (width // cols) // 2, y_0 + (height // rows) * 3 // 4
+    elif subarea == "bottom-right":
+        x, y = x_0 + (width // cols) * 3 // 4, y_0 + (height // rows) * 3 // 4
+    else:
+        x, y = x_0 + (width // cols) // 2, y_0 + (height // rows) // 2
+    return x, y
+
 # ------------------ Continuous Task Loop ------------------
 while True:
-    # Ask for a new task
     print_with_color("\nDo you have a new task for me?", "blue")
     voice_assistant.speak_text("Do you have a new task for me?")
     input_file_path = "input.txt"
     open(input_file_path, "w").close()
     call_voice_assistant()
 
-    # Read task description
     if os.path.exists(input_file_path) and os.path.getsize(input_file_path) > 0:
         with open(input_file_path, "r", encoding="utf-8") as f:
             task_desc = f.read().strip().lower()
         open(input_file_path, "w").close()
-
-        # Check if user wants to exit
         if any(stop_word in task_desc for stop_word in STOP_WORDS):
             print_with_color("Goodbye! Exiting agent.", "green")
             voice_assistant.speak_text("Goodbye! Exiting now.")
             break
-
         print_with_color(f"Loaded task description: '{task_desc}'", "green")
     else:
         print_with_color("No new task detected. Exiting.", "red")
         break
 
-    # ------------------ Setup Task Directories ------------------
     demo_dir = os.path.join(work_dir, "demos")
     os.makedirs(demo_dir, exist_ok=True)
     demo_timestamp = int(time.time())
@@ -149,215 +176,86 @@ while True:
     explore_log_path = os.path.join(task_dir, f"log_explore_{task_name}.txt")
     reflect_log_path = os.path.join(task_dir, f"log_reflect_{task_name}.txt")
 
-    # ------------------ Initialize Exploration ------------------
     round_count = 0
+    task_complete = False
+    last_act = "None"
     doc_count = 0
     useless_list = set()
-    last_act = "None"
-    task_complete = False
 
     # ------------------ Exploration Loop ------------------
     while round_count < configs["MAX_ROUNDS"]:
         round_count += 1
         print_with_color(f"Round {round_count}", "yellow")
         human_answer_context = ""
-        if "human_input" in locals() and human_input:
-            human_answer_context = f"You previously asked a question and the human responded with: '{human_input}'."
-            human_input = ""
 
         screenshot_before = controller.get_screenshot(f"{round_count}_before", task_dir)
-        xml_path = controller.get_xml(f"{round_count}", task_dir)
-        if screenshot_before == "ERROR" or xml_path == "ERROR":
-            break
 
-        # ------------------ UI Elements ------------------
-        clickable_list = []
-        focusable_list = []
-        traverse_tree(xml_path, clickable_list, "clickable", True)
-        traverse_tree(xml_path, focusable_list, "focusable", True)
-        elem_list = []
+        # ------------------ XML Parsing (Commented for Grid Only) ------------------
+        # xml_path = controller.get_xml(f"{round_count}", task_dir)
+        # clickable_list = []
+        # focusable_list = []
+        # traverse_tree(xml_path, clickable_list, "clickable", True)
+        # traverse_tree(xml_path, focusable_list, "focusable", True)
+        # elem_list = []
+        # for elem in clickable_list + focusable_list:
+        #     if elem.uid not in useless_list:
+        #         elem_list.append(elem)
+        # draw_bbox_multi(screenshot_before, os.path.join(task_dir, f"{round_count}_before_labeled.png"), elem_list, dark_mode=configs["DARK_MODE"])
 
-        for elem in clickable_list:
-            if elem.uid not in useless_list:
-                elem_list.append(elem)
-        for elem in focusable_list:
-            if elem.uid not in useless_list:
-                bbox = elem.bbox
-                center = (bbox[0][0] + bbox[1][0]) // 2, (bbox[0][1] + bbox[1][1]) // 2
-                close = False
-                for e in clickable_list:
-                    bbox = e.bbox
-                    center_ = (bbox[0][0] + bbox[1][0]) // 2, (bbox[0][1] + bbox[1][1]) // 2
-                    dist = ((center[0] - center_[0]) ** 2 + (center[1] - center_[1]) ** 2) ** 0.5
-                    if dist <= configs["MIN_DIST"]:
-                        close = True
+        # ------------------ Grid Drawing ------------------
+        if grid_on:
+            rows, cols = draw_grid(screenshot_before, os.path.join(task_dir, f"{round_count}_before_grid.png"))
+            image = os.path.join(task_dir, f"{round_count}_before_grid.png")
+            prompt = prompts.self_explore_task_template
+            prompt = re.sub(r"<task_description>", task_desc, prompt)
+            prompt = re.sub(r"<last_act>", last_act, prompt)
+            prompt = re.sub(r"<human_answer_context>", human_answer_context, prompt)
+
+            print_with_color("Thinking about what to do in the next step...", "yellow")
+            status, rsp = mllm.get_model_response(prompt, [image])
+
+            if not status:
+                print_with_color(rsp, "red")
+                break
+
+            with open(explore_log_path, "a") as logfile:
+                log_item = {"step": round_count, "prompt": prompt, "image": f"{round_count}_before_grid.png", "response": rsp}
+                logfile.write(json.dumps(log_item) + "\n")
+
+            res = parse_explore_rsp(rsp)
+            act_name = res[0]
+            last_act = res[-1]
+            res = res[:-1]
+
+            try:
+                if act_name == "tap_grid" or act_name == "long_press_grid":
+                    _, area, subarea = res
+                    x, y = area_to_xy(area, subarea)
+                    if act_name == "tap_grid":
+                        ret = controller.tap(x, y)
+                    else:
+                        ret = controller.long_press(x, y)
+                    if ret == "ERROR":
                         break
-                if not close:
-                    elem_list.append(elem)
-
-        draw_bbox_multi(
-            screenshot_before,
-            os.path.join(task_dir, f"{round_count}_before_labeled.png"),
-            elem_list,
-            dark_mode=configs["DARK_MODE"]
-        )
-
-        # ------------------ Model Prompt ------------------
-        prompt = re.sub(r"<task_description>", task_desc, prompts.self_explore_task_template)
-        prompt = re.sub(r"<last_act>", last_act, prompt)
-        prompt = re.sub(r"<human_answer_context>", human_answer_context, prompt)
-        base64_img_before = os.path.join(task_dir, f"{round_count}_before_labeled.png")
-
-        print_with_color("Thinking about what to do in the next step...", "yellow")
-        status, rsp = mllm.get_model_response(prompt, [base64_img_before])
-
-        if not status:
-            print_with_color(rsp, "red")
-            break
-
-        with open(explore_log_path, "a") as logfile:
-            log_item = {"step": round_count, "prompt": prompt, "image": f"{round_count}_before_labeled.png", "response": rsp}
-            logfile.write(json.dumps(log_item) + "\n")
-
-        res = parse_explore_rsp(rsp)
-        act_name = res[0]
-        last_act = res[-1]
-        res = res[:-1]
-
-        # ------------------ Execute Actions ------------------
-        if act_name == "FINISH":
-            task_complete = True
-            break
-        elif act_name == "tap":
-            _, area = res
-            tl, br = elem_list[area - 1].bbox
-            x, y = (tl[0] + br[0]) // 2, (tl[1] + br[1]) // 2
-            if controller.tap(x, y) == "ERROR":
+                elif act_name == "swipe_grid":
+                    _, start_area, start_subarea, end_area, end_subarea = res
+                    start_x, start_y = area_to_xy(start_area, start_subarea)
+                    end_x, end_y = area_to_xy(end_area, end_subarea)
+                    ret = controller.swipe_precise((start_x, start_y), (end_x, end_y))
+                    if ret == "ERROR":
+                        break
+            except Exception as e:
+                print_with_color(f"ERROR: Exception while executing grid action - {e}", "red")
                 break
-        elif act_name == "long_press":
-            _, area = res
-            tl, br = elem_list[area - 1].bbox
-            x, y = (tl[0] + br[0]) // 2, (tl[1] + br[1]) // 2
-            if controller.long_press(x, y) == "ERROR":
-                break
-        elif act_name == "swipe":
-            _, area, swipe_dir, dist = res
-            tl, br = elem_list[area - 1].bbox
-            x, y = (tl[0] + br[0]) // 2, (tl[1] + br[1]) // 2
-            if controller.swipe(x, y, swipe_dir, dist) == "ERROR":
-                break
-        elif act_name == "ask_human":
-            _, question_to_ask = res
-            print_with_color(f"AGENT REQUEST: {question_to_ask}", "green")
-            input_file_path = "input.txt"
-            open(input_file_path, "w").close()
-            call_voice_assistant()
 
-            if os.path.exists(input_file_path) and os.path.getsize(input_file_path) > 0:
-                with open(input_file_path, "r", encoding="utf-8") as f:
-                    human_input = f.read().strip().lower()
-                open(input_file_path, "w").close()
-                print_with_color(f"Found response: '{human_input}'", "cyan")
+            time.sleep(configs["REQUEST_INTERVAL"])
 
-                # Stop if user says a stop word
-                if any(stop_word in human_input for stop_word in STOP_WORDS):
-                    print_with_color("User requested to stop. Exiting agent.", "red")
-                    voice_assistant.speak_text("Goodbye! Exiting now.")
-                    sys.exit(0)
-            else:
-                print_with_color("Waiting for your response (type or update input.txt)...", "yellow")
-                human_input = input("Your response: ").strip().lower()
-                if any(stop_word in human_input for stop_word in STOP_WORDS):
-                    print_with_color("User requested to stop. Exiting agent.", "green")
-                    voice_assistant.speak_text("Goodbye! Exiting now.")
-                    sys.exit(0)
-
-            print_with_color("Understood. Using this for next step.", "cyan")
-            continue
-        elif act_name == "text":
-            _, area, input_str = res
-            tl, br = elem_list[area - 1].bbox
-            x, y = (tl[0] + br[0]) // 2, (tl[1] + br[1]) // 2
-            print_with_color(f"Tapping element {area} to focus before typing.", "cyan")
-            controller.tap(x, y)
-            time.sleep(1.5)
-            if controller.text(input_str) == "ERROR":
-                break
-        else:
-            break
-
-        time.sleep(configs["REQUEST_INTERVAL"])
-
-        # ------------------ Reflection Phase ------------------
-        screenshot_after = controller.get_screenshot(f"{round_count}_after", task_dir)
-        if screenshot_after == "ERROR":
-            break
-        draw_bbox_multi(screenshot_after, os.path.join(task_dir, f"{round_count}_after_labeled.png"), elem_list, dark_mode=configs["DARK_MODE"])
-        base64_img_after = os.path.join(task_dir, f"{round_count}_after_labeled.png")
-
-        if act_name == "tap":
-            prompt = re.sub(r"<action>", "tapping", prompts.self_explore_reflect_template)
-        elif act_name == "long_press":
-            prompt = re.sub(r"<action>", "long pressing", prompts.self_explore_reflect_template)
-        elif act_name == "swipe":
-            prompt = re.sub(r"<action>", "swiping", prompts.self_explore_reflect_template)
-        else:
-            continue
-
-        prompt = re.sub(r"<ui_element>", str(area), prompt)
-        prompt = re.sub(r"<task_desc>", task_desc, prompt)
-        prompt = re.sub(r"<last_act>", last_act, prompt)
-
-        print_with_color("Reflecting on my previous action...", "yellow")
-        status, rsp = mllm.get_model_response(prompt, [base64_img_before, base64_img_after])
-        if not status:
-            break
-
-        resource_id = elem_list[int(area) - 1].uid
-        with open(reflect_log_path, "a") as logfile:
-            log_item = {"step": round_count, "prompt": prompt, "response": rsp}
-            logfile.write(json.dumps(log_item) + "\n")
-
-        res = parse_reflect_rsp(rsp)
-        decision = res[0]
-        if decision == "INEFFECTIVE":
-            useless_list.add(resource_id)
-            last_act = "None"
-        elif decision in ["BACK", "CONTINUE", "SUCCESS"]:
-            if decision in ["BACK", "CONTINUE"]:
-                useless_list.add(resource_id)
-                last_act = "None"
-                if decision == "BACK":
-                    controller.back()
-            doc = res[-1]
-            doc_name = resource_id + ".txt"
-            doc_path = os.path.join(docs_dir, doc_name)
-            if os.path.exists(doc_path):
-                doc_content = ast.literal_eval(open(doc_path).read())
-            else:
-                doc_content = {"tap": "", "text": "", "v_swipe": "", "h_swipe": "", "long_press": ""}
-            doc_content[act_name] = doc
-            with open(doc_path, "w") as outfile:
-                outfile.write(str(doc_content))
-            doc_count += 1
-            print_with_color(f"Documentation saved to {doc_path}", "yellow")
-
-        voice_assistant.speak_summary_only()
-        time.sleep(configs["REQUEST_INTERVAL"])
-
-    # ------------------ After Task Completion ------------------
     if task_complete:
         print_with_color(f"Task '{task_desc}' completed successfully. {doc_count} docs generated.", "yellow")
         voice_assistant.speak_text("Task completed successfully. Would you like me to do something else?")
-    elif round_count == configs["MAX_ROUNDS"]:
-        print_with_color(f"Task ended due to max rounds. {doc_count} docs generated.", "yellow")
-        voice_assistant.speak_text("I reached the maximum rounds. Do you want to give me another task?")
     else:
-        print_with_color(f"Task ended unexpectedly. {doc_count} docs generated.", "red")
-        voice_assistant.speak_text("Something went wrong. Do you want to try another task?")
-
-    print_with_color("Waiting for next command...", "blue")
-    time.sleep(3)
+        print_with_color(f"Task ended. {doc_count} docs generated.", "yellow")
+        voice_assistant.speak_text("Task finished. Do you want to give me another task?")
 
 voice_assistant.speak_text("Thank you! All tasks finished.")
 open("output.txt", "w").close()

@@ -1,0 +1,1 @@
+{'tap': 'The UI element opens the Planet (L&T Finance) app and navigates to the login screen where you can enter your security PIN.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}

@@ -1,0 +1,1 @@
+{'tap': 'The UI element opens the selected company’s detail page, providing access to sections such as reviews, salaries, jobs, and other information.', 'text': '', 'v_swipe': '', 'h_swipe': '', 'long_press': ''}
